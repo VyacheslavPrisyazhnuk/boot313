@@ -1,6 +1,7 @@
 package prog.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import prog.model.User;
@@ -16,12 +17,11 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
     @PersistenceContext
     private EntityManager entityManager;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserDaoImpl() {
-     //   LoadUsers();
     }
-
-
     @Autowired
     private RoleDao roleDao;
 
@@ -33,19 +33,10 @@ public class UserDaoImpl implements UserDao {
         query.setParameter("username", username);
         return (User)query.getSingleResult();
     }
-
-//    @Transactional
-//    public void LoadUsers() {
-//        Set<Role> setadmin = new HashSet<>();
-//        Set<Role> setuser = new HashSet<>();
-//        setadmin.add(new Role(1l, "ROLE_ADMIN"));
-//        setuser.add(new Role(2l, "ROLE_USER"));
-//        entityManager.persist(new User("admin", "admin", 33, "admin", setadmin));
-//        entityManager.persist(new User("user", "user", 31, "user", setuser));
-//    }
     @Override
     @Transactional
     public void save(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         entityManager.persist(user);
     }
 

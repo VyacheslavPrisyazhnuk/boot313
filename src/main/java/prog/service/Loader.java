@@ -1,6 +1,7 @@
 package prog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import prog.model.Role;
 import prog.model.User;
