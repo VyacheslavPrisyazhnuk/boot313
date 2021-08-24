@@ -1,6 +1,7 @@
 package prog.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,29 +15,25 @@ import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl  implements UserDao {
     @PersistenceContext
     private EntityManager entityManager;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserDaoImpl() {
+
+    public UserDaoImpl(RoleDao roleDao) {
+        this.roleDao = roleDao;
     }
-    @Autowired
-    private RoleDao roleDao;
+    private final RoleDao roleDao;
 
     @Override
     @Transactional
     public User findByUsername(String username) {
-        Query query =
-                entityManager.createQuery("SELECT u FROM User u WHERE name=:username");
-        query.setParameter("username", username);
-        return (User)query.getSingleResult();
+        return (User) entityManager.createQuery("SELECT u FROM User u WHERE email=:username").setParameter("username", username).getSingleResult();
     }
     @Override
     @Transactional
     public void save(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
         entityManager.persist(user);
     }
 
@@ -65,9 +62,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public User show(Long id) {
-        Query query =
-                entityManager.createQuery("SELECT u FROM User u WHERE id=:id");
-        query.setParameter("id", id);
-        return (User)query.getSingleResult();
+        return entityManager.find(User.class, id);
     }
 }

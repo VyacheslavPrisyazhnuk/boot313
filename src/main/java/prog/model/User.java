@@ -67,6 +67,12 @@ public class User implements UserDetails {
     public Long getId() {
         return id;
     }
+    public String getRol() {
+        if (getRoles().toString().replaceAll("^\\[|\\]$|\\,", "").equals("ROLE_ADMIN")) {
+            return "ADMIN";
+        }
+        return "USER";
+    }
 
     public void setId(Long id) {
         this.id = id;

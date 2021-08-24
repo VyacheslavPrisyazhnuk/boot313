@@ -13,11 +13,16 @@ import java.util.Set;
 
 @Component
 public class Loader {
-    @Autowired
+    final
     UserService userServices;
 
-    @Autowired
+    final
     RoleService roleService;
+
+    public Loader(UserService userServices, RoleService roleService) {
+        this.userServices = userServices;
+        this.roleService = roleService;
+    }
 
     @PostConstruct
     public void initApiUserData() {
@@ -29,8 +34,8 @@ public class Loader {
         roleService.addRole(role2);
         setadmin.add(role2);
         setuser.add(role);
-        User user1 = new User("admin", "admin", 33, "admin");
-        User user2 = new User("user", "user", 31, "user");
+        User user1 = new User("admin", "admin@mail.ru", 33, "admin");
+        User user2 = new User("user", "user@mail.ru", 31, "user");
         user1.setRoles(setadmin);
         user2.setRoles(setuser);
         userServices.save(user1);

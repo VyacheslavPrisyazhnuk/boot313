@@ -17,9 +17,11 @@ import java.util.Set;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-@Autowired
-    private  UserService userService;
+private final UserService userService;
 
+    public UserDetailsServiceImpl(UserService userService) {
+        this.userService = userService;
+    }
 
 
     @Override
@@ -33,6 +35,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
         }
         return new org.springframework.security.core.userdetails.
-                User(user.getUsername(), user.getPassword(), grantedAuthorities);
+                User(user.getEmail(), user.getPassword(), grantedAuthorities);
     }
 }
