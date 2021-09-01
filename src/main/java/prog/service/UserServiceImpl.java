@@ -1,12 +1,9 @@
 package prog.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import prog.dao.UserDao;
 import prog.model.User;
-
 
 import java.util.List;
 
@@ -35,8 +32,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(Long id, User updatedUser) {
-        userDao.update(id, updatedUser);
+    public void update(User updatedUser) {
+        updatedUser.setPassword(bCryptPasswordEncoder.encode(updatedUser.getPassword()));
+        userDao.update(updatedUser);
     }
 
     @Override

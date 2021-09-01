@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -12,63 +12,48 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <p class="navbar-brand text-white">
-            <b><span class="align-middle" th:text="${user.getEmail()}"></span></b>
-            <span class="align-middle">with roles:</span>
-            <span class="align-middle">USER</span>
+            <span id="upemail" class="navbar-brand font-weight-bold text-white"></span>
+            <span id="uproles" class="navbar-brand text-white"></span>
         </p>
         <form th:action="@{/logout}" method="post">
             <button type="submit" class="btn btn-dark text-secondary">Logout</button>
         </form>
     </div>
 </nav>
-<section>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-2 px-0 ">
-                <ul class="list-group-flush px-0 py-3 ">
-                    <li class="list-group-item active">User</li>
-                </ul>
-            </div>
-            <div class="col-10 px-0">
-                <div class="container-fluid">
-                    <h1 class="m-3 fw-bold">User information-page</h1>
-                    <div class="tab-content" id="tabContent">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="m-1">
-                                    <h4>About user</h4>
-                                </div>
-                            </div>
-                            <div class="card-body" bg-primary text-white>
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Email</th>
-                                        <th>Name</th>
-                                        <th>Age</th>
-                                        <th>Roles</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td th:text="${user.getId()}"></td>
-                                        <td th:text="${user.getEmail()}"></td>
-                                        <td th:text="${user.getName()}"></td>
-                                        <td th:text="${user.getAge()}"></td>
-                                        <td>USER</td>
-
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+<div class="row">
+    <div class="col-2 mt-3 p-0">
+        <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+            <a class="nav-item nav-link active ml-2" data-toggle="pill" href="#user_panel" role="tab"
+               aria-controls="user_panel" aria-selected="true">User</a>
+        </div>
+    </div>
+    <div class="col-10 p-0">
+        <div class="tab-content bg-light p-2">
+            <div class="tab-pane fade show active pl-3" style="height: 700px;" id="user_panel"
+                 role="tabpanel" aria-labelledby="user_panel">
+                <h1>User information-page</h1>
+                <div class="pl-3 pt-1 d-flex border-top border-left border-right"><h4> About user</h4></div>
+                <div class="bg-white border p-3">
+                    <table class="table table-striped border-top">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                        </tr>
+                        </thead>
+                        <tbody id="user_info"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
+<script src="/js/Roles.js"></script>
+<script src="/js/navPanel.js"></script>
+<script src="/js/userShow.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
